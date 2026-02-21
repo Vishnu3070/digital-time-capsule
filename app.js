@@ -26,7 +26,7 @@ const Capsule = mongoose.model('Capsule', capsuleSchema);
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
+    port: 2522,
     secure: false, 
     auth: { 
         user: 'vishnupriyae307@gmail.com', 
@@ -59,6 +59,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
