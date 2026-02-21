@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://vishnupriyae307_db_user:L74OWqassWxRxZC4@cluster0.kju3fjd.mongodb.net/TimeCapsuleDB?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://vishnupriyae307_db_user:lbny omah ahby prab@cluster0.kju3fjd.mongodb.net/TimeCapsuleDB?retryWrites=true&w=majority', {
     serverSelectionTimeoutMS: 30000, // 30 seconds wait pannum
     socketTimeoutMS: 45000, // Connection cut aagama paathukkum
 })
@@ -59,6 +59,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
