@@ -5,16 +5,23 @@ function App() {
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
   const [date, setDate] = useState('');
-  const [recipientEmail, setRecipientEmail] = useState(''); // New State
+  const [recipientEmail, setRecipientEmail] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://dashboard.render.com/web/srv-d6cnorffte5s73ct7mi0/deploys/dep-d6cnornfte5s73ct7mr0?r=2026-02-21%4009%3A34%3A42%7E2026-02-21%4009%3A38%3A37', {
-        title, message, unlockDate: date, recipientEmail 
+      // Correct Render API Link - Ippo idha replace pannitaen machan
+      await axios.post('https://digital-time-capsule-ju9x.onrender.com/api/capsules', {
+        title, 
+        message, 
+        unlockDate: date, 
+        recipientEmail 
       });
       alert("Capsule Locked Successfully! 🔒");
-    } catch (err) { alert("Error locking capsule"); }
+    } catch (err) { 
+      console.error(err);
+      alert("Error locking capsule"); 
+    }
   };
 
   return (
