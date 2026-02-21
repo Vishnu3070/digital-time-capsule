@@ -10,7 +10,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/capsules', {
+      await axios.post('https://dashboard.render.com/web/srv-d6cnorffte5s73ct7mi0/deploys/dep-d6cnornfte5s73ct7mr0?r=2026-02-21%4009%3A34%3A42%7E2026-02-21%4009%3A38%3A37', {
         title, message, unlockDate: date, recipientEmail 
       });
       alert("Capsule Locked Successfully! 🔒");
