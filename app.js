@@ -25,8 +25,13 @@ const capsuleSchema = new mongoose.Schema({
 const Capsule = mongoose.model('Capsule', capsuleSchema);
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: 'vishnupriyae307@gmail.com', pass: 'cnhs qzab fssc eyln' }
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // Use SSL
+    auth: { 
+        user: 'vishnupriyae307@gmail.com', 
+        pass: 'cnhs qzab fssc eyln' 
+    }
 });
 
 app.post('/api/capsules', async (req, res) => {
@@ -51,5 +56,6 @@ cron.schedule('* * * * *', async () => {
         await Capsule.findByIdAndUpdate(cap._id, { isSent: true });
     }
 });
+
 
 app.listen(5000, () => console.log("Server running 🚀"));
