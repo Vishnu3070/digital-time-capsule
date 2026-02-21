@@ -1,25 +1,33 @@
 {
   "name": "digitaltimecapsule",
   "version": "1.0.0",
-  "description": "",
+  "description": "Full stack time capsule with cloud DB",
   "main": "index.js",
   "scripts": {
-  "start": "react-scripts start",
-  "build": "react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "cors": "^2.8.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "dotenv": "^17.2.4",
-    "express": "^5.2.1",
-    "mongoose": "^9.2.1",
-    "node-cron": "^4.2.1",
-    "nodemailer": "^8.0.1"
+    "express": "^5.2.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
