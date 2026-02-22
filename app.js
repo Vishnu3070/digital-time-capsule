@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const { createClient } = require('@supabase/supabase-js');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const cron = require('node-cron');
@@ -8,21 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://vishnupriyae307_db_user:lbny omah ahby prab@cluster0.kju3fjd.mongodb.net/TimeCapsuleDB?retryWrites=true&w=majority', {
-    serverSelectionTimeoutMS: 30000, // 30 seconds wait pannum
-    socketTimeoutMS: 45000, // Connection cut aagama paathukkum
-})
-.then(() => console.log("Cloud Database Connected ✅"))
-.catch(err => console.log("Connection Error: ", err));
-
-const capsuleSchema = new mongoose.Schema({
-    title: String,
-    message: String,
-    unlockDate: String,
-    recipientEmail: String,
-    isSent: { type: Boolean, default: false }
-});
-const Capsule = mongoose.model('Capsule', capsuleSchema);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -35,30 +21,32 @@ const transporter = nodemailer.createTransport({
 }); 
 
 app.post('/api/capsules', async (req, res) => {
-    try {
-        const newCap = new Capsule(req.body);
-        await newCap.save();
-        res.status(201).json({ message: "Locked!" });
-    } catch (err) { res.status(500).send(err); }
+    const { title, message, recipientEmail, unlockDate } = req.body;
+
+    const { data, error } = await supabase
+        .from('capsules')
+        .insert([{ 
+            title: title, 
+            message: message, 
+            email: recipientEmail, 
+            unlock_date: unlockDate 
+        }]);
+
+    if (error) {
+        return res.status(500).json({ success: false, error: error.message });
+    }
+
+    res.status(200).json({ success: true, message: "Capsule locked successfully!" });
 });
 
 cron.schedule('* * * * *', async () => {
     const today = new Date().toISOString().split('T')[0];
-    const pending = await Capsule.find({ unlockDate: { $lte: today }, isSent: false });
-    for (const cap of pending) {
-        await transporter.sendMail({
-            from: 'vishnupriyae307@gmail.com',
-            to: cap.recipientEmail,
-            subject: `Time Capsule: ${cap.title}`,
-            text: cap.message
-        });
-        console.log(`Email delivered to ${cap.recipientEmail} 📧`);
-        await Capsule.findByIdAndUpdate(cap._id, { isSent: true });
     }
 });
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
