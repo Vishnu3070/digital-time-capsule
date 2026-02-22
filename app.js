@@ -33,7 +33,7 @@ app.post('/api/capsules', async (req, res) => {
         }]);
 
     if (error) {
-        return res.status(500).json({ success: false, error: error.message });
+       return res.status(500).json({ success: false, error: error.message, detail: error.details });
     }
 
     res.status(200).json({ success: true, message: "Capsule locked successfully!" });
@@ -46,6 +46,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
