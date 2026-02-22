@@ -23,17 +23,24 @@ const transporter = nodemailer.createTransport({
 app.post('/api/capsules', async (req, res) => {
     const { title, message, recipientEmail, unlockDate } = req.body;
 
-   const { data, error } = await supabase
+    const { data, error } = await supabase
         .from('capsules')
         .insert([{ 
             title: title, 
             message: message, 
-            email: recipientEmail, // Idhu dhaan unga Supabase table column name
-            unlock_date: unlockDate // Idhu dhaan unga Supabase table column name
+            email: recipientEmail, 
+            unlock_date: unlockDate,
+            issent: false 
         }]);
 
     if (error) {
-       return res.status(500).json({ success: false, error: error.message, detail: error.details });
+        console.error("Supabase Error:", error);
+        return res.status(500).json({ 
+            success: false, 
+            error: error.message, 
+            detail: error.details, 
+            hint: error.hint 
+        });
     }
 
     res.status(200).json({ success: true, message: "Capsule locked successfully!" });
@@ -46,6 +53,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
