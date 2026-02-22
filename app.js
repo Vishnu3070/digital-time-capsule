@@ -32,16 +32,14 @@ app.post('/api/capsules', async (req, res) => {
             unlock_date: unlockDate,
             issent: false 
         }]);
-
-    if (error) {
-        console.error("Supabase Error:", error);
-        return res.status(500).json({ 
-            success: false, 
-            error: error.message, 
-            detail: error.details, 
-            hint: error.hint 
-        });
-    }
+if (error) {
+    console.error("Supabase Error:", error);
+    return res.status(500).json({ 
+        success: false, 
+        error: error.message, 
+        detail: error.details 
+    });
+}
 
     res.status(200).json({ success: true, message: "Capsule locked successfully!" });
 });
@@ -53,6 +51,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
