@@ -21,7 +21,8 @@ const transporter = nodemailer.createTransport({
 }); 
 
 app.post('/api/capsules', async (req, res) => {
-    const { title, message, recipientEmail, unlockDate } = req.body;
+    // Front-end form fields match aaganum
+    const { title, message, recipientEmail, unlockDate } = req.body; 
 
     const { data, error } = await supabase
         .from('capsules')
@@ -32,18 +33,20 @@ app.post('/api/capsules', async (req, res) => {
             unlock_date: unlockDate,
             issent: false 
         }]);
-if (error) {
-    console.error("Supabase Error:", error);
-    return res.status(500).json({ 
-        success: false, 
-        error: error.message, 
-        detail: error.details 
-    });
-}
+
+    if (error) {
+        console.error("Supabase Error:", error);
+        // Indha alert message dhaan namakku detail-ah sollum
+        return res.status(500).json({ 
+            success: false, 
+            error: "Database Error", 
+            message: error.message,
+            detail: error.details 
+        });
+    }
 
     res.status(200).json({ success: true, message: "Capsule locked successfully!" });
 });
-
 cron.schedule('* * * * *', async () => {
     const today = new Date().toISOString().split('T')[0];
     }
@@ -51,6 +54,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
