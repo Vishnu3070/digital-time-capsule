@@ -23,13 +23,13 @@ const transporter = nodemailer.createTransport({
 app.post('/api/capsules', async (req, res) => {
     const { title, message, recipientEmail, unlockDate } = req.body;
 
-    const { data, error } = await supabase
+   const { data, error } = await supabase
         .from('capsules')
         .insert([{ 
             title: title, 
             message: message, 
-            email: recipientEmail, 
-            unlock_date: unlockDate 
+            email: recipientEmail, // Idhu dhaan unga Supabase table column name
+            unlock_date: unlockDate // Idhu dhaan unga Supabase table column name
         }]);
 
     if (error) {
@@ -46,6 +46,7 @@ cron.schedule('* * * * *', async () => {
 
 
 app.listen(5000, () => console.log("Server running 🚀"));
+
 
 
 
